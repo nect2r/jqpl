@@ -19,19 +19,13 @@ public class JpaMain {
             member.setAge(10);
             em.persist(member);
 
-            TypedQuery<Member> query1 = em.createQuery("select m from Member m where m.username = :username", Member.class);
-            query1.setParameter("username", "member1");
-            List<Member> resultList = query1.getResultList();
-            Member singleResult = query1.getSingleResult();
+            em.flush();
+            em.clear();
 
-            System.out.println("singleResult = " + singleResult.getUsername());
+            List<MemberDTO> result = em.createQuery("select distinct new jpql.MemberDTO(m.username, m.age) from Member m", MemberDTO.class).getResultList();
 
-            for (Member member1 : resultList) {
-                System.out.println("member1 = " + member1.getUsername());
-            }
-
-            TypedQuery<String> query2 = em.createQuery("select m.username from Member m", String.class);
-            Query query3 = em.createQuery("select m.username, m.age from Member m");
+            MemberDTO memberDTO = result.get(0);
+            System.out.println("memberDTO = " + memberDTO.getUsername());
 
             tx.commit();
         } catch (Exception e){
