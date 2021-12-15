@@ -28,11 +28,11 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select 'a' || 'b' from Member m";
+            String query = "select group_concat(m.username) from Member m";
 
-            List<String> result = em.createQuery(query, String.class).getResultList();
+            List<Integer> result = em.createQuery(query, Integer.class).getResultList();
 
-            for (String s : result) {
+            for (Integer s : result) {
                 System.out.println("s = " + s);
             }
 
