@@ -28,13 +28,12 @@ public class JpaMain {
             em.flush();
             em.clear();
 
-            String query = "select m.username, 'HELLO', TRUE from Member m where m.type = :userType";
-            List<Object[]> result = em.createQuery(query).setParameter("userType", MemberType.ADMIN).getResultList();
+            String query = "select 'a' || 'b' from Member m";
 
-            for (Object[] objects : result) {
-                System.out.println("objects = " + objects[0]);
-                System.out.println("objects = " + objects[1]);
-                System.out.println("objects = " + objects[2]);
+            List<String> result = em.createQuery(query, String.class).getResultList();
+
+            for (String s : result) {
+                System.out.println("s = " + s);
             }
 
         } catch (Exception e){
